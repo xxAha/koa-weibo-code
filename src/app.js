@@ -20,6 +20,7 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
+//配置ejs的跟目录是/views文件夹，后缀是ejs的文件
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }))

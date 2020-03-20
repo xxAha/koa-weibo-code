@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- 使用变量 -->
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
     <h1><%= title %></h1>
     <p>EJS Welcome to <%= title %></p>
+    <!-- 如果没有传name变量就会报错，如果想避免这种情况可以加locals -->
+    <!-- 不确定有没有这个变量的时候，可以使用 -->
+    <p><%= locals.name %></p>
+
+    <!-- if -->
+    <p>
+      <% if(isMe) { %>
+        <a href="#">@我的有（3）</a>
+      <% } else { %>
+        <button>关注我</button>
+      <% } %>
+    </p>
+
+    <!-- 使用组件 -->
+    <!-- 第一个参数是路径，第二个参数是传入的变量 -->
+    <!-- item.ejs: <div class='a'><%= itemValue %></div> -->
+    <%- include('./components/item.ejs', {
+      itemValue
+    })%>
+
+    <!-- 循环 -->
+    <ul>
+      <% blogList.forEach(blog => { %>
+        <li data-id="<%= blog.id %>"><%= blog.title %></li>
+      <% })%>
+    </ul>
   </body>
 </html>
