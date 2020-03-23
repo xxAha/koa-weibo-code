@@ -17,7 +17,7 @@ function _formatUserPicture(obj) {
 
 /**
  * 格式话用户信息
- * @param { Array|Object } list 用户列表，可以是一个数据，也可以是一个对象
+ * @param { array|object } list 用户列表，可以是一个数据，也可以是一个对象
  */
 function formatUser(list) {
   if(list == null) {
