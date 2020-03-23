@@ -10,6 +10,7 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const { REDIS_CONF } = require('../src/conf/db')
 const { isProd } = require('./utils/env')
+const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 
 const index = require('./routes/index')
 
@@ -42,7 +43,7 @@ app.use(views(__dirname + '/views', {
 }))
 
 //配置session
-app.keys = ['JSJV_12l']
+app.keys = [SESSION_SECRET_KEY]
 app.use(session({
   key: 'weibo.sid', //cookie的name，默认是koa.sid
   prefix: 'weibo:sess:', //redis key 的前缀，默认是 'koa:sess:'
