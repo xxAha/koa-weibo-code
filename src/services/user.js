@@ -45,7 +45,6 @@ async function getUserInfo(userName, password) {
 async function createUser({ userName, password, gender, nickName }) {
   //这里是操作数据库的，就算前端有些数据没传例如nickName
   //但为了接口的可扩展性，我们还是需要定义接收尽量多的参数(不能为空的参数)
-  console.log(arguments);
   const result = await User.create({
     userName,
     password,
