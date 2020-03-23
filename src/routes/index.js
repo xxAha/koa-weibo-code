@@ -32,4 +32,8 @@ router.get('/json', async (ctx, next) => {
   }
 })
 
+router.get('/register', async (ctx, next) => {
+  await ctx.render('register')
+})
+
 module.exports = router
