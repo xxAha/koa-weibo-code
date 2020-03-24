@@ -3,7 +3,8 @@
  */
 const {
   getUserInfo,
-  createUser
+  createUser,
+  deleteUser
 } = require('../services/user')
 const {
   SuccessModel,
@@ -13,7 +14,8 @@ const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
   registerFailInfo,
-  loginFailInfo
+  loginFailInfo,
+  deleteUserFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -23,11 +25,11 @@ const doCrypto = require('../utils/cryp')
  * @param { string } userName 用户名
  */
 async function regiseter({ userName, password, gender }) {
-  //业务逻辑
   const userInfo = await getUserInfo(userName)
+  //业务逻辑
   if (userInfo) {
-    //用户名已存在
-    return new SuccessModel(registerUserNameExistInfo)
+    // 用户名已存在
+    return new ErrorModel(registerUserNameExistInfo)
   }
 
   //注册
@@ -80,8 +82,21 @@ async function login({ctx, userName, password}) {
 
 }
 
+/**
+ * 删除用户
+ * @param {string} userName 用户名
+ */
+async function deleteCurUser(userName) {
+  const result = await deleteUser(userName)
+  if(result) {
+    return new SuccessModel()
+  }
+  return new ErrorModel(deleteUserFailInfo)
+} 
+
 module.exports = {
   isExist,
   regiseter,
-  login
+  login,
+  deleteCurUser
 }

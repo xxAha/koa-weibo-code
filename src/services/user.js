@@ -37,6 +37,7 @@ async function getUserInfo(userName, password) {
 
 //service层，负责数据库的操作和格式化数据
 /**
+ * 创建用户
  * @param {string} userName 用户名
  * @param {string} password 密码
  * @param {number} gender   性别
@@ -54,7 +55,22 @@ async function createUser({ userName, password, gender, nickName }) {
   return result.dataValues
 }
 
+/**
+ * 删除用户
+ * @param {string} userName 用户名
+ */
+async function deleteUser(userName) {
+  const result = await User.destroy({
+    where: {
+      userName
+    }
+  })
+  // result 删除的行数
+  return result > 0
+}
+
 module.exports = {
   getUserInfo,
-  createUser
+  createUser,
+  deleteUser
 }
