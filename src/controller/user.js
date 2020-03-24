@@ -12,9 +12,38 @@ const {
 const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
-  registerFailInfo
+  registerFailInfo,
+  loginFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
+
+//controller层，处理业务逻辑，设置返回格式
+/**
+ * 用户名注册
+ * @param { string } userName 用户名
+ */
+async function regiseter({ userName, password, gender }) {
+  //业务逻辑
+  const userInfo = await getUserInfo(userName)
+  if (userInfo) {
+    //用户名已存在
+    return new SuccessModel(registerUserNameExistInfo)
+  }
+
+  //注册
+  try {
+    await createUser({
+      userName,
+      password: doCrypto(password),
+      gender
+    })
+    //设置返回格式
+    return new SuccessModel()
+  } catch (error) {
+    console.error(error.messgae, error.stack)
+    return new ErrorModel(registerFailInfo)
+  }
+}
 
 /**
  * 用户名是否存在
@@ -31,37 +60,28 @@ async function isExist(userName) {
   }
 }
 
-//controller层，处理业务逻辑，返回格式
 /**
- * 用户名注册
- * @param { string } userName 用户名
+ * 用户登陆
+ * @param {object} ctx 执行上下问
+ * @param {string} userName 用户名
+ * @param {string} password 密码
  */
-async function regiseter({
-  userName,
-  password,
-  gender
-}) {
-  const userInfo = await getUserInfo(userName)
-  if (userInfo) {
-    //用户名已存在
-    return new SuccessModel(registerUserNameExistInfo)
+async function login({ctx, userName, password}) { 
+  const userInfo = await getUserInfo(userName, doCrypto(password))
+  //如果用户名/密码不正确 userInfo是null
+  if(userInfo == null) {
+    return new ErrorModel(loginFailInfo)
   }
+  //登陆成功
+  if(ctx.session.userInfo == null) {
+    ctx.session.userInfo = userInfo
+  }
+  return new SuccessModel()
 
-  //注册
-  try {
-    await createUser({
-      userName,
-      password: doCrypto(password),
-      gender
-    })
-    return new SuccessModel()
-  } catch (error) {
-    console.error(error.messgae, error.stack)
-    return new ErrorModel(registerFailInfo)
-  }
 }
 
 module.exports = {
   isExist,
-  regiseter
+  regiseter,
+  login
 }
