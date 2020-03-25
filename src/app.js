@@ -5,6 +5,8 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const koaStatic = require('koa-static')
+const path = require('path')
 //session & redis
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
@@ -36,7 +38,9 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname, 'public')))
+
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 
 //配置ejs的跟目录是/views文件夹，后缀是ejs的文件
 app.use(views(__dirname + '/views', {
