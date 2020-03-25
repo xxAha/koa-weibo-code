@@ -45,11 +45,11 @@ async function saveFile({
     await fse.remove(filePath)
     return new ErrorModel(uploadFileSizeFailInfo)
   }
-  //移动文件
+  //移动文件(正式上线，这里就不需要移动文件，可能就是直接调用文件服务的api)
   //路由执行了koaFrom() 文件已经保存到了服务器里，
   //如果以mac本地是保存在了 /var/folders/jh/4pfgznbd633cdxmvljv1410c0000gn/T/
   const fileName = Date.now() + '.' + name // 防止重名
-  const distFilePath = path.join(DIST_FOLDER_PATH, fileName) // 目的地
+  const distFilePath = path.join(DIST_FOLDER_PATH, fileName) // 目的地(还能把文件名字改了。。。)
   //第一个参数是原来的路径
   //第二个参数是移动到哪里
   await fse.move(filePath, distFilePath)

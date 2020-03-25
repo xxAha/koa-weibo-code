@@ -69,8 +69,52 @@ async function deleteUser(userName) {
   return result > 0
 }
 
+/**
+ * 更新用户
+ * @param {string} userName 用户名
+ */
+async function updateUser(
+  //接收修改内容对象
+  { newNickName, newPicture, newCity, newPassword },
+  //接收查询条件对象
+  { userName, password },
+) {
+
+  //拼接修改内容
+  const updateData = {}
+  if(newNickName) {
+    updateData.nickName = newNickName
+  }
+  if(newPicture) {
+    updateData.picture = newPicture
+  }
+  if(newCity) {
+    updateData.city = newCity
+  }
+  if(newPassword) {
+    updateData.password = newPassword
+  }
+
+  //拼接查询条件
+  const whereData = {
+    userName
+  }
+  if(password) {
+    whereData.password = password
+  }
+
+  //执行
+  const result = await User.update(updateData, {
+    where: whereData
+  })
+
+  return result[0] > 0
+
+}
+
 module.exports = {
   getUserInfo,
   createUser,
-  deleteUser
+  deleteUser,
+  updateUser
 }
