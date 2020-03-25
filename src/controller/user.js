@@ -24,7 +24,11 @@ const doCrypto = require('../utils/cryp')
  * 用户名注册
  * @param { string } userName 用户名
  */
-async function regiseter({ userName, password, gender }) {
+async function regiseter({
+  userName,
+  password,
+  gender
+}) {
   const userInfo = await getUserInfo(userName)
   //业务逻辑
   if (userInfo) {
@@ -68,14 +72,18 @@ async function isExist(userName) {
  * @param {string} userName 用户名
  * @param {string} password 密码
  */
-async function login({ctx, userName, password}) { 
+async function login({
+  ctx,
+  userName,
+  password
+}) {
   const userInfo = await getUserInfo(userName, doCrypto(password))
   //如果用户名/密码不正确 userInfo是null
-  if(userInfo == null) {
+  if (userInfo == null) {
     return new ErrorModel(loginFailInfo)
   }
   //登陆成功
-  if(ctx.session.userInfo == null) {
+  if (ctx.session.userInfo == null) {
     ctx.session.userInfo = userInfo
   }
   return new SuccessModel()
@@ -88,11 +96,11 @@ async function login({ctx, userName, password}) {
  */
 async function deleteCurUser(userName) {
   const result = await deleteUser(userName)
-  if(result) {
+  if (result) {
     return new SuccessModel()
   }
   return new ErrorModel(deleteUserFailInfo)
-} 
+}
 
 module.exports = {
   isExist,

@@ -16,6 +16,7 @@ const index = require('./routes/index')
 
 const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
+const utilsAPIRouter = require('./routes/api/utils')
 
 const errorViewRouter = require('./routes/view/error')
 
@@ -71,6 +72,8 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
+
 
 
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
