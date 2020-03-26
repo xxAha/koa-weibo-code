@@ -1,16 +1,8 @@
 /**
  * @description user controller
  */
-const {
-  getUserInfo,
-  createUser,
-  deleteUser,
-  updateUser
-} = require('../services/user')
-const {
-  SuccessModel,
-  ErrorModel
-} = require('../model/ResModel')
+const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user')
+const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
@@ -150,7 +142,7 @@ async function changeUserInfo(ctx, {
 
     return new ErrorModel(changeInfoFailInfo)
   }
-  
+
 }
 
 /**
@@ -160,14 +152,12 @@ async function changeUserInfo(ctx, {
  * @param {string} newPassword 新密码
  */
 async function changeUserPassword({ userName, password, newPassword }) {
-  const result = await updateUser(
-    { newPassword: doCrypto(newPassword) },
-    { userName, 
-      password: doCrypto(password)
-    }
-  )
+  const result = await updateUser({ newPassword: doCrypto(newPassword) }, {
+    userName,
+    password: doCrypto(password)
+  })
 
-  if(result) {
+  if (result) {
     return new SuccessModel()
   }
 
