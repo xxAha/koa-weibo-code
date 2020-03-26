@@ -129,20 +129,28 @@ async function changeUserInfo(ctx, {
   const where = {
     userName
   }
-  const result = await updateUser(newData, where)
 
-  if (result) {
-    //执行成功
-    Object.assign(ctx.session.userInfo, {
-      nickName,
-      city,
-      picture
-    })
-    //返回
-    return new SuccessModel()
+
+  try {
+    const result = await updateUser(newData, where)
+    if (result) {
+      //执行成功
+      Object.assign(ctx.session.userInfo, {
+        nickName,
+        city,
+        picture
+      })
+      //返回
+      return new SuccessModel()
+    }
+    //失败
+    return new ErrorModel(changeInfoFailInfo)
+
+  } catch (error) {
+
+    return new ErrorModel(changeInfoFailInfo)
   }
-  //失败
-  return new ErrorModel(changeInfoFailInfo)
+  
 }
 
 /**
