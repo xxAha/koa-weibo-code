@@ -65,6 +65,7 @@ test('登录，应该成功', async () => {
       userName,
       password
     })
+  console.log(res.body);
   expect(res.body.errno).toBe(0)
 
   // 获取 cookie  保存cookie 下面的测试需要验证登陆的需要设置cookie
@@ -92,7 +93,6 @@ test('修改用户密码，应该成功', async () => {
         password,
         newPassword: 'p_123'
       })
-      .set('cookie', COOKIE) 
   expect(res.body.errno).toBe(0)
 })
 
