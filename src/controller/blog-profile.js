@@ -13,6 +13,7 @@ async function getProfileBlogList({ userName, pageIndex }) {
       pageIndex,
       pageSize: PAGE_SIZE
     })
+    
     return new SuccessModel({
       isEmpty: result.count === 0,
       blogList: result.blogList,
@@ -20,6 +21,7 @@ async function getProfileBlogList({ userName, pageIndex }) {
       pageIndex,
       count: result.count
     })
+
   } catch (error) {
     console.log(error.message, error.stack)
     return new ErrorModel({

@@ -41,7 +41,6 @@ function formatUser(list) {
 function _formatDBTime(obj) {
   obj.createdAtFormat = timeFormat(obj.createdAt)
   obj.updatedAtFormat = timeFormat(obj.updatedAt)
-  console.log('_formatDBTime:', obj)
   return obj
 }
 
