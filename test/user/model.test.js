@@ -6,7 +6,7 @@
 const { User } = require('../../src/db/model/index')
 
 test('User 模型的各个属性，符合预期', () => {
-    // build 会构建一个内存的 User 实例，但不会提交到数据库中
+    // build 会构建一个内存的 User 实例，但不会提交到数据库中，和操作数据库不同这个是同步操作
     const user = User.build({
         userName: 'zhangsan',
         password: 'p123123',

@@ -19,11 +19,7 @@ const doCrypto = require('../utils/cryp')
  * 用户名注册
  * @param { string } userName 用户名
  */
-async function regiseter({
-  userName,
-  password,
-  gender
-}) {
+async function regiseter({ userName, password, gender }) {
   const userInfo = await getUserInfo(userName)
   //业务逻辑
   if (userInfo) {
