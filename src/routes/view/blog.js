@@ -42,15 +42,19 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
 
   //获取粉丝数据
   const fansResult = await getFans(curUserInfo.id)
-  console.log('fansResult :',fansResult)
-
+  const fansData = fansResult.data
+ 
   //获取第一页的微博数据
   const result = await getProfileBlogList({ userName: curUserName, pageIndex: 0 })
   await ctx.render('profile', {
     blogData: result.data,
     userData: {
       userInfo: curUserInfo,
-      isMe
+      isMe,
+      fansData: {
+        count: fansData.count,
+        list: fansData.fansList
+      }
     }
   })
 })
