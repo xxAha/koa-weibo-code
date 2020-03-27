@@ -5,6 +5,7 @@
 const router = require('koa-router')()
 const { loginRedirect } = require('../../middlewares/loginChecks')
 const { getProfileBlogList } = require('../../controller/blog-profile')
+const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
 
 //主页
@@ -47,6 +48,15 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
       isMe
     }
   })
+})
+
+//广场页
+router.get('/square', loginRedirect, async (ctx, next) => {
+  const result = await getSquareBlogList(0)
+  await ctx.render('square', {
+    blogData: result.data
+  })
+
 })
 
 module.exports = router
