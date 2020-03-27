@@ -3,7 +3,7 @@
  */
 
 const { User } = require('../db/model')
-const { formatUser } = require('./_format')
+const { formatUser } = require('./_format') 
 
 /**
  * 获取用户新
