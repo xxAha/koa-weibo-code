@@ -1,14 +1,14 @@
 /**
- * @description 个人主页API test
+ * @description 广场页API test
  * @author 双越老师
  */
 
 const server = require('../server')
-const { Z_COOKIE, Z_USER_NAME } = require('../testUserInfo')
+const { Z_COOKIE } = require('../testUserInfo')
 
-test('个人主页，加载第一页数据，应该成功', async () => {
+test('广场页，加载第一页数据，应该成功', async () => {
     const res = await server
-        .get(`/api/profile/loadMore/${Z_USER_NAME}/0`)
+        .get(`/api/square/loadMore/0`)
         .set('cookie', Z_COOKIE)
     expect(res.body.errno).toBe(0)
 

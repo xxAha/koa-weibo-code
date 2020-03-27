@@ -93,6 +93,7 @@ test('修改用户密码，应该成功', async () => {
         password,
         newPassword: 'p_123'
       })
+      .set('cookie', COOKIE) 
   expect(res.body.errno).toBe(0)
 })
 
