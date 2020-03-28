@@ -35,7 +35,40 @@ async function getUsersByFollowerId(followerId) {
     // })
     return userValue
   })
-  //console.log(userList);
+  //result.count 总数
+  //result.rows 查询结果 数组
+  return {
+    userList,
+    count: result.count
+  }
+
+}
+
+/**
+ * 获取用户关注列表
+ * @param {number} userdId 获取哪个用户的关注列表
+ */
+async function getFollowersByUserId(userId) {
+  const result = await UserRelation.findAndCountAll({
+    order:[
+      ['id', 'desc']
+    ],
+    where: {
+      userId
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'userName', 'nickName', 'picture']
+      }
+    ]
+  })
+
+  //result.count 总数
+  //result.rows 查询结果 数组
+  const userList = result.rows.map(row => {
+    return formatUser(row.dataValues.user.dataValues)
+  })
   return {
     userList,
     count: result.count
@@ -75,6 +108,7 @@ async function destroyUserRelation(userId, followerId) {
 
 module.exports = {
   getUsersByFollowerId,
+  getFollowersByUserId,
   createUserRelation,
-  destroyUserRelation
+  destroyUserRelation,
 }
