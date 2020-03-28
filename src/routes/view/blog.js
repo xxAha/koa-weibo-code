@@ -43,6 +43,11 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   //获取粉丝数据
   const fansResult = await getFans(curUserInfo.id)
   const fansData = fansResult.data
+
+  //我是否关注了此人
+  const amIFollowed = fansData.fansList.some(item => {
+    return item.userName === myUserName
+  })
  
   //获取第一页的微博数据
   const result = await getProfileBlogList({ userName: curUserName, pageIndex: 0 })
@@ -52,9 +57,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
       userInfo: curUserInfo,
       isMe,
       fansData: {
-        count: fansData.count,
+        count: fansData.fansCount,
         list: fansData.fansList
-      }
+      },
+      amIFollowed
     }
   })
 })

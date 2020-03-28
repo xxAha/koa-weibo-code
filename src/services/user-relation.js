@@ -30,9 +30,9 @@ async function getUsersByFollowerId(followerId) {
 
   const userList = result.rows.map(row => {
     const userValue = formatUser(row.dataValues)
-    userValue.userRelations = row.dataValues.userRelations.map(u => {
-      return u.dataValues
-    })
+    // userValue.userRelations = row.dataValues.userRelations.map(u => {
+    //   return u.dataValues
+    // })
     return userValue
   })
   //console.log(userList);
@@ -43,7 +43,38 @@ async function getUsersByFollowerId(followerId) {
 
 }
 
+/**
+ * 创建用户关系
+ * @param {number} userId 关注人的id
+ * @param {number} followerId 被关注人的id
+ */
+async function createUserRelation(userId, followerId) {
+  const result = await UserRelation.create({
+    userId,
+    followerId
+  })
+  return result.dataValues
+}
+
+/**
+ * 取消用户关系
+ * @param {number} userId 关注人的id
+ * @param {number} followerId 被取消关注人的id
+ */
+async function destroyUserRelation(userId, followerId) {
+  const result = await UserRelation.destroy({
+    where: {
+      userId,
+      followerId
+    }
+  })
+
+  return result > 0
+}
+
 
 module.exports = {
-  getUsersByFollowerId
+  getUsersByFollowerId,
+  createUserRelation,
+  destroyUserRelation
 }
