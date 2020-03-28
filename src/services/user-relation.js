@@ -12,6 +12,9 @@ const Sequelize = require('sequelize')
  * @param {number} userId 被关注的用户id
  */
 async function getUsersByFollowerId(followerId) {
+  //通过User来查询
+  //传进来的 id 如果等于 UserRelation.followerId ，UserRelation.userId就是粉丝的id
+  //通过UserRelation.userId 关联查询想对应的 User数据
   const result = await User.findAndCountAll({
     attributes: ['id', 'userName', 'nickName', 'picture'],
     order: [
@@ -21,7 +24,7 @@ async function getUsersByFollowerId(followerId) {
       {
         model: UserRelation,
         where: {
-          //查询followerId = userId 的用户 -> 就是关注了 userId 的用户
+          //通过followerId 带出关系表中 userId，用userId关联查出user数据
           followerId
         }
       }
@@ -49,11 +52,15 @@ async function getUsersByFollowerId(followerId) {
  * @param {number} userdId 获取哪个用户的关注列表
  */
 async function getFollowersByUserId(userId) {
+  //通过UserRelation来查询
+  //传进来的 id 如果等于 UserRelation.userId ，UserRelation.followerId 就是用户关注的用户id
+  //通过UserRelation.followerId 关联查询相对应的 User数据
   const result = await UserRelation.findAndCountAll({
     order:[
       ['id', 'desc']
     ],
     where: {
+      //通过userId 带出关系表中 followerId，用followerId关联查出user数据
       userId
     },
     include: [

@@ -12,8 +12,7 @@ module.exports = {
   Z_ID: 1,
   Z_USER_NAME: 'zhangsan',
   Z_COOKIE: 'weibo.sid=7ztOGY_-e_vN4qQcAUi0a2AeYH9lS65S; weibo.sid.sig=tQiBMJkU4OHVVYJZLX0jszg6sCs',
-
-  // L_ID: 2,
-  // L_USER_NAME: 'lisi',
-  // L_COOKIE: 'weibo.sid=686m0u92zMTCmmSQY85trYv_PScDgpFx; weibo.sid.sig=Za_Oj-wSLFrG5QzQhqQU0YQxOFo'
+  L_ID: 2,
+  L_USER_NAME: 'lisi',
+  L_COOKIE: 'weibo.sid=uTZ3BAfWoFGpWbYGNUsClC1LUlM5eK3B; weibo.sid.sig=WQYUuqS9gxhjWrgzyGh1KQueMs8'
 }
