@@ -28,26 +28,21 @@ async function getUsersByFollowerId(followerId) {
     ]
   })
 
-  // const userList = result.rows.map(row => {
-  //   const userValue = row.dataValues
-  //   console.log(userValue)
-  //   row.dataValues.userRelations.map(u => {
-  //     return userValue.x = u.dataValues
-  //   })
-  // })
   const userList = result.rows.map(row => {
     const userValue = formatUser(row.dataValues)
-    // userValue.userRelations = row.dataValues.userRelations.map(u => {
-    //   return u.dataValues
-    // })
+    userValue.userRelations = row.dataValues.userRelations.map(u => {
+      return u.dataValues
+    })
     return userValue
   })
+  //console.log(userList);
   return {
     userList,
     count: result.count
   }
 
 }
+
 
 module.exports = {
   getUsersByFollowerId

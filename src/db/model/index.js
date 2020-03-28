@@ -9,14 +9,14 @@ const UserRelation = require('./UserRelation')
 Blog.belongsTo(User, {
   foreignKey: 'userId'
 })
-
+// userId followerId
 UserRelation.belongsTo(User, {
-  foreignKey: 'userId'
-})
-//因为 UserRelation 有两个外键（userId & followerId）关联User，
-//belongsTo关联一个，hasMany关联一个
-User.hasMany(UserRelation, {
   foreignKey: 'followerId'
+})
+
+
+User.hasMany(UserRelation, {
+  foreignKey: 'userId'
 })
 
 module.exports = {
