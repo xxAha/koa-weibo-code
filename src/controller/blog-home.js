@@ -2,10 +2,11 @@
  * @description blog-home controlller
  */
 
-const { creactBlog } = require('../services/blog')
+const { creactBlog, getBlogListByFollower } = require('../services/blog')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const { createBlogFailInfo } = require('../model/ErrorInfo')
 const xss = require('xss')
+const { PAGE_SIZE } = require('../conf/constant')
 
 /**
  * 创建微博
@@ -28,6 +29,24 @@ async function create({ userId, content, image }) {
 
 }
 
+/**
+ * 查询首页博客列表
+ * @param {number} userId 查询此用户的关注人博客列表
+ * @param {number} pageIndex 页码
+ */
+async function getHomeBlogList(userId, pageIndex = 0) {
+  //services
+  const result = await getBlogListByFollower({userId, pageIndex, pageSize: PAGE_SIZE})
+  return new SuccessModel({
+    isEmpty: result.count === 0,
+    blogList: result.blogList,
+    pageSize: PAGE_SIZE,
+    pageIndex,
+    count: result.count
+  })
+}
+
 module.exports = {
-  create
+  create,
+  getHomeBlogList
 }

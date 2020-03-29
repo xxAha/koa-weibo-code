@@ -2,7 +2,7 @@
  * @description blog services
  */
 
-const { Blog, User } = require('../db/model/index')
+const { Blog, User, UserRelation } = require('../db/model/index')
 const { formatUser } = require('../services/_format')
 const { formatBlog } = require('./_format')
 
@@ -63,7 +63,50 @@ async function getBlogListByUser({ userName, pageIndex = 0, pageSize = 10 }) {
 
 }
 
+/**
+ * 查询首页博客数据
+ * @param {string} userId 用户名
+ * @param {number} pageIndex 当前页码
+ * @param {number} pageSize 一页显示多少条
+ */
+
+async function getBlogListByFollower({userId, pageIndex = 0, pageSize = 10}) {
+  const result = await Blog.findAndCountAll({
+    limit: pageSize,
+    offset: pageSize * pageIndex,
+    order: [
+      ['id', 'desc']
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'userName', 'nickName', 'picture']
+      },
+      {
+        model: UserRelation,
+        attributes: ['userId', 'followerId'],
+        where: {
+          userId
+        }
+      }
+    ]
+  })
+  
+  let blogList = result.rows.map(row => formatBlog(row.dataValues))
+  blogList = blogList.map(blog => {
+    blog.user = formatUser(blog.user.dataValues)
+    blog.userRelation = blog.userRelation.dataValues
+    return blog
+  })
+  return {
+    count: result.count,
+    blogList
+  }
+
+}
+
 module.exports = {
   creactBlog,
-  getBlogListByUser
+  getBlogListByUser,
+  getBlogListByFollower
 }
