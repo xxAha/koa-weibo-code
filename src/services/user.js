@@ -4,6 +4,7 @@
 
 const { User } = require('../db/model')
 const { formatUser } = require('./_format') 
+const { createUserRelation } = require('./user-relation')
 
 /**
  * 获取用户新
@@ -52,6 +53,10 @@ async function createUser({ userName, password, gender, nickName }) {
     gender: gender ? gender : 3,
     nickName: nickName ? nickName : userName 
   })
+  const data = result.dataValues
+  //自己关注自己，首页获取数据就只需要查询关注列表的博客就可以
+  await createUserRelation(data.id, data.id)
+
   return result.dataValues
 }
 

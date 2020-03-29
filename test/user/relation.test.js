@@ -6,10 +6,10 @@ const {
   Z_COOKIE,
   Z_ID,
   Z_USER_NAME,
-  L_COOKIE,
   L_ID,
   L_USER_NAME
 } = require('../testUserInfo')
+//没有路由的时候，也可以引入controller的来进行测试
 const { getFans, getFollowers } = require('../../src/controller/user-relation')
 const server = require('../server')
 

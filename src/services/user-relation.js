@@ -25,7 +25,13 @@ async function getUsersByFollowerId(followerId) {
         model: UserRelation,
         where: {
           //通过followerId 带出关系表中 userId，用userId关联查出user数据
-          followerId
+          followerId,
+          userId: {
+            //Sequelize.Op.ne -> 排除的意思
+            //Op -> operation 操作的意思
+            //ne -> not exactly 不是的意思
+            [Sequelize.Op.ne]: followerId
+          }
         }
       }
     ]
@@ -44,7 +50,7 @@ async function getUsersByFollowerId(followerId) {
     userList,
     count: result.count
   }
-
+ 
 }
 
 /**
@@ -61,7 +67,10 @@ async function getFollowersByUserId(userId) {
     ],
     where: {
       //通过userId 带出关系表中 followerId，用followerId关联查出user数据
-      userId
+      userId,
+      followerId: {
+        [Sequelize.Op.ne]: userId
+      }
     },
     include: [
       {
