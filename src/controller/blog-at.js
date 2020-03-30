@@ -2,7 +2,7 @@
  * @description 用户 @ controller
  */
 
-const { getAtRelationCount, getBlogListByAtRelation } = require('../services/at-relation')
+const { getAtRelationCount, getBlogListByAtRelation, updateAtRelation } = require('../services/at-relation')
 const { SuccessModel } = require('../model/ResModel')
 const { PAGE_SIZE } = require('../conf/constant')
 
@@ -37,7 +37,23 @@ async function  getAtMeBlogList(userId, pageIndex = 0) {
   })
 }
 
+/**
+ * @ 未读改变为已读
+ * @param {number} userId 用户 ID
+ */
+async function changeAtRelationToRead(userId) {
+  try {
+    await updateAtRelation(
+      { newRead: true },
+      { userId, isRead: false }
+    )
+  } catch (error) {
+    console.error(error.messgae, error.stack)
+  }
+}
+
 module.exports = {
   getAtMeCount,
-  getAtMeBlogList
+  getAtMeBlogList,
+  changeAtRelationToRead
 }

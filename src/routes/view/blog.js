@@ -9,7 +9,7 @@ const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
 const { getFans, getFollowers } = require('../../controller/user-relation')
 const { getHomeBlogList } = require('../../controller/blog-home')
-const { getAtMeCount, getAtMeBlogList } = require('../../controller/blog-at')
+const { getAtMeCount, getAtMeBlogList, changeAtRelationToRead } = require('../../controller/blog-at')
 
 //主页
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -136,6 +136,10 @@ router.get('/atMe', loginRedirect, async (ctx, next) => {
     blogData: result.data
   })
 
+  //@ 改变为已读
+  if(atCount > 0) {
+    await changeAtRelationToRead(userId)
+  }
 })
 
 module.exports = router
