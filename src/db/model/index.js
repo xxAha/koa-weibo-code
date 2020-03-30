@@ -5,6 +5,7 @@
 const User = require('./User')
 const Blog = require('./Blog')
 const UserRelation = require('./UserRelation')
+const AtRelation = require('./AtRelation')
 
 //通过 UserRelation.findAndCountAll include(关联) 查询 User
 //只要 UserRelation.followerId 等于 User.id 的user数据都会查询出来
@@ -31,9 +32,14 @@ Blog.belongsTo(UserRelation, {
   targetKey: 'followerId' //UserRelation 的 followerId
 })
 
+Blog.hasMany(AtRelation, {
+  foreignKey: 'blogId'
+})
+
 module.exports = {
   User,
   Blog,
-  UserRelation
+  UserRelation,
+  AtRelation
 }
 

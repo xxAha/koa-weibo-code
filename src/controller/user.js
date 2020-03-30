@@ -3,6 +3,7 @@
  */
 const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
+const { createUserRelation } = require('../services/user-relation')
 const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
@@ -29,11 +30,13 @@ async function regiseter({ userName, password, gender }) {
 
   //注册
   try {
-    await createUser({
+    const data = await createUser({
       userName,
       password: doCrypto(password),
       gender
     })
+    //自己关注自己，首页获取数据就只需要查询关注列表的博客就可以
+    await createUserRelation(data.id, data.id)
     //设置返回格式
     return new SuccessModel()
   } catch (error) {
