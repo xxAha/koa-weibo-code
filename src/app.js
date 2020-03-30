@@ -14,7 +14,7 @@ const { REDIS_CONF } = require('../src/conf/db')
 const { isProd } = require('./utils/env')
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 
-
+const blogAtRelationAPIRouter = require('./routes/api/blog-at')
 const blogSquareAPIRouter = require('./routes/api/blog-square')
 const blogProfileAPIRouter = require('./routes/api/blog-profile')
 const blogHomeAPIRouter = require('./routes/api/blog-home')
@@ -76,6 +76,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
+app.use(blogAtRelationAPIRouter.routes(), blogAtRelationAPIRouter.allowedMethods())
 app.use(blogSquareAPIRouter.routes(), blogSquareAPIRouter.allowedMethods())
 app.use(blogProfileAPIRouter.routes(), blogProfileAPIRouter.allowedMethods())
 app.use(blogHomeAPIRouter.routes(), blogHomeAPIRouter.allowedMethods())

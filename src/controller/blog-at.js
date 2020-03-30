@@ -27,7 +27,7 @@ async function  getAtMeBlogList(userId, pageIndex = 0) {
     pageIndex,
     pageSize: PAGE_SIZE
   })
-  
+
   return new SuccessModel({
     isEmpty: result.count === 0,
     blogList: result.blogList,
