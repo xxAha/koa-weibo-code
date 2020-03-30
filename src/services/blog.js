@@ -78,10 +78,13 @@ async function getBlogListByFollower({userId, pageIndex = 0, pageSize = 10}) {
       ['id', 'desc']
     ],
     include: [
+      //include 里面有两个表
       {
         model: User,
         attributes: ['id', 'userName', 'nickName', 'picture']
       },
+      //Blog.userId 关联的是 UserRelation.followerId
+      //UserRelation.userId = userId 就可以查询到user所有的关注人(包括自己)的博客列表
       {
         model: UserRelation,
         attributes: ['userId', 'followerId'],
