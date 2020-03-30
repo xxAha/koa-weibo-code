@@ -49,6 +49,18 @@ test('获取张三的关注列表，应该有李四', async () => {
   expect(hasUserName).toBeTruthy()
 })
 
+//获取张三的@列表
+test('获取张三的@列表，应该有李四', async () => {
+  const res = await server
+      .get('/api/user/getAtList')
+      .set('cookie', Z_COOKIE)
+  const atList = res.body
+  const hasUserName = atList.some(item => {
+    return item.indexOf(`- ${L_USER_NAME}`) > 0
+  })
+  expect(hasUserName).toBe(true)
+})
+
 //张三取消关注李四
 test('张三取消关注李四，应该成功', async () => {
   const result = await server
