@@ -28,6 +28,7 @@
                       count: blogData.count,
                       containerSelector: '#container-weibo-list',
                       api: '/api/blog/loadMore',
+                
                   })%>
               <% } %> <!-- 加载更多 结束 -->
           <% } %>
@@ -42,7 +43,7 @@
                   userInfo: userData.userInfo,
                   isMe: true,
                   amIFollowed: false,
-                  //atCount: userData.atCount
+                  atCount: userData.atCount
               });%>
           </div>
 

@@ -9,6 +9,7 @@ const { getSquareBlogList } = require('../../controller/blog-square')
 const { isExist } = require('../../controller/user')
 const { getFans, getFollowers } = require('../../controller/user-relation')
 const { getHomeBlogList } = require('../../controller/blog-home')
+const { getAtMeCount } = require('../../controller/blog-at')
 
 //主页
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -20,6 +21,10 @@ router.get('/', loginRedirect, async (ctx, next) => {
   //获取关注列表数据
   const followResult = await getFollowers(userInfo.id)
   const followData = followResult.data
+
+  //获取@数
+  const atCountRes = await getAtMeCount(userInfo.id)
+  const { count: atCount } = atCountRes.data
 
   //获取第一页的微博数据
   const result = await getHomeBlogList(userInfo.id)
@@ -36,7 +41,8 @@ router.get('/', loginRedirect, async (ctx, next) => {
         count: followData.followCount,
         list: followData.followList
       },
-      amIFollowed: false
+      amIFollowed: false,
+      atCount
     }
   })
 
@@ -80,7 +86,11 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   const amIFollowed = fansData.fansList.some(item => {
     return item.userName === myUserName
   })
- 
+
+  //获取@数
+  const atCountRes = await getAtMeCount(curUserInfo.id)
+  const { count: atCount } = atCountRes.data
+
   //获取第一页的微博数据
   const result = await getProfileBlogList({ userName: curUserName, pageIndex: 0 })
   await ctx.render('profile', {
@@ -96,7 +106,8 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         count: followData.followCount,
         list: followData.followList
       },
-      amIFollowed
+      amIFollowed,
+      atCount
     }
   })
 })
